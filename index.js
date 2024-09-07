@@ -1,18 +1,20 @@
-// Add Express
-const express = require("express");
+const express = require('express')
+const todos = require('./data.js')
+const cors = require('cors')
+const app = express()
+const routes = require('./server.js')
+const PORT = process.env.PORT || 3000
 
-// Initialize Express
-const app = express();
+app.use(cors({
+  origin: '*',  // For a more permissive CORS policy, allows requests from any domain
+}))
+app.use(express.json())
 
-// Create GET request
-app.get("/", (req, res) => {
-  res.send("Express on Vercel");
-});
+app.locals.title = 'Todos API'
+app.locals.todos = todos
 
-// Initialize server
-app.listen(3001, () => {
-  console.log("Running on port 5000.");
-});
+app.listen(PORT, () => {
+  console.log(`${app.locals.title} is now running on ${PORT}`)
+})
 
-// Export the Express API
-module.exports = app;
+routes(app)

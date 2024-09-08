@@ -3,8 +3,8 @@ const routes = (app) => {
 
   //**todos routes **/
   app.route('/todos')
-    .get((request, response) => {
-      response.status(200).json(app.locals.todos)
+    .get((req, res) => {
+      res.status(200).json(todos)
     })
 
     // {
@@ -19,7 +19,7 @@ const routes = (app) => {
         const todo = req.body
         let keys = Object.keys(todo)
         if (!keys.includes("content") || !keys.includes("complete")) {
-          res.status(422).json({ error: "Body is missing.",  message: `Please make sure body includes "content" and "complete" parameters.` })
+          res.status(422).json({ error: "Body is missing.", message: `Please make sure body includes "content" and "complete" parameters.` })
         } else {
           todo.id = Date.now()
           todo.created = today
@@ -27,41 +27,45 @@ const routes = (app) => {
           res.status(201).json(todo)
         }
       } catch (error) {
-        res.status(500).json("Something went wrong")
+        res.status(500).send("Something went wrong")
       }
     })
 
   //**todos/id routes **/
   app.route('/todos/:id')
-    .get((request, response) => {
-      const id = parseInt(request.params.id)
+    .get((req, res) => {
+      const id = parseInt(req.params.id)
       console.log("GET ID", id)
       console.log("APP.LOCALS.TODO", app.locals.todos)
       const foundTodo = app.locals.todos.find(idea => idea.id === id)
       if (!foundTodo) {
-        return response.status(404).json({ message: `Sorry, no todo found with an id of ${id}` })
+        return res.status(404).json({ message: `Sorry, no todo found with an id of ${id}` })
       }
-      response.status(200).json(foundTodo)
+      res.status(200).json(foundTodo)
     })
 
-    .delete((request, response) => {
-      const id = request.params.id
+    .delete((req, res) => {
+      const id = req.params.id
       const filteredTodo = app.locals.todos.filter(todo => String(todo.id) !== String(id))
       app.locals.todos = filteredTodo
-      response.status(200).json(app.locals.todos)
+      res.status(200).send('Task successfully deleted.')
     })
 
     .put((req, res) => {
-      // const { id } = req.params
-      const id = parseInt(req.params.id)
-      const { content, date, destination } = req.body
-      // const updatedTask = app.locals.todos.find(todo => todo.id == id)
-      const updatedTask = app.locals.todos.find(todo => String(todo.id) == String(id))
-      console.log("UPDATEDTASK", updatedTask)
-      updatedTask.destination = destination
-      updatedTask.date = date
-      updatedTask.content = content
-      return res.json(updatedTask)
+      try {
+        const { id } = req.params
+        const taskToUpdate = todos.find(todo => todo.id === id)
+        if (!taskToUpdate) {
+          res.status(404).json({ error: "Provided ID not found", message: `Unable to find todo with the matching id of ${id}` })
+        } else {
+          for (let key in req.body) {
+            taskToUpdate[key] = req.body[key]
+          }
+          res.status(200).json(taskToUpdate)
+        }
+      } catch (error) {
+        res.status(500).send("Something went wrong")
+      }
     })
 }
 

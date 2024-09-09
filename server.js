@@ -34,7 +34,7 @@ const routes = (app) => {
   app.route('/todos/:id')
     .get((req, res) => {
       const { id } = req.params
-      const foundTodo = app.locals.todos.find(idea => idea.id === id)
+      const foundTodo = app.locals.todos.find(idea => idea.id === String(id))
       if (!foundTodo) {
         return res.status(404).json({ message: `Sorry, no todo found with an id of ${id}` })
       }
@@ -43,7 +43,7 @@ const routes = (app) => {
 
     .delete((req, res) => {
       const { id } = req.params
-      const filteredTodo = app.locals.todos.filter(todo => todo.id !== id)
+      const filteredTodo = app.locals.todos.filter(todo => todo.id !== String(id))
       app.locals.todos = filteredTodo
       res.status(200).json(app.locals.todos)
     })
@@ -51,7 +51,7 @@ const routes = (app) => {
     .put((req, res) => {
       try {
         const { id } = req.params
-        const taskToUpdate = app.locals.todos.find(todo => todo.id === id)
+        const taskToUpdate = app.locals.todos.find(todo => todo.id === String(id))
         if (!taskToUpdate) {
           res.status(404).json({ error: "Provided ID not found", message: `Unable to find todo with the matching id of ${id}` })
         } else {

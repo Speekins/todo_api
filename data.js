@@ -2,32 +2,37 @@ const data = [
   {
     id: '1',
     content: 'Meditate 🧘🏼',
-    date: '2024-07-13',
-    complete: true
+    created: '2024-07-13',
+    complete: true,
+    dueDate: '2024-10-10'
   },
   {
     id: '5',
     content: 'Exercise 🏊🏻‍♂️',
-    date: '2024-07-18',
-    complete: false
+    created: '2024-07-18',
+    complete: false,
+    dueDate: '2024-10-10'
   },
   {
     id: '2',
     content: 'Walk the dog 🐶',
-    date: '2024-07-15',
-    complete: false
+    created: '2024-07-15',
+    complete: false,
+    dueDate: '2024-10-10'
   },
   {
     id: '3',
     content: 'Plan trip to Florida 🌴',
-    date: '2024-07-19',
-    complete: true
+    created: '2024-07-19',
+    complete: true,
+    dueDate: '2024-10-10'
   },
   {
     id: '4',
     content: 'Make dinner 🍔',
-    date: '2023-08-25',
-    complete: false
+    created: '2023-08-25',
+    complete: false,
+    dueDate: '2024-10-10'
   },
 ]
 

@@ -5,9 +5,7 @@ const app = express()
 const routes = require('./server.js')
 const PORT = process.env.PORT || 3000
 
-app.use(cors({
-  origin: '*',  // For a more permissive CORS policy, allows requests from any domain
-}))
+app.use(cors({ origin: "http://localhost:8888" }))
 app.use(express.json())
 
 app.locals.title = 'Todos API'

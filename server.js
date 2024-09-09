@@ -49,14 +49,15 @@ const routes = (app) => {
     })
 
     .put((req, res) => {
+      const body = JSON.parse(req.body)
       try {
         const { id } = req.params
         const taskToUpdate = app.locals.todos.find(todo => todo.id === String(id))
         if (!taskToUpdate) {
           res.status(404).json({ error: "Provided ID not found", message: `Unable to find todo with the matching id of ${id}` })
         } else {
-          for (let key in req.body) {
-            taskToUpdate[key] = req.body[key]
+          for (let key in body) {
+            taskToUpdate[key] = body[key]
           }
           res.status(200).json(taskToUpdate)
         }

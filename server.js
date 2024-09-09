@@ -13,7 +13,8 @@ const routes = (app) => {
     //   complete: true
     // }
     .post((req, res) => {
-      let today = new Date().toISOString().slice(0, 10)
+      const today = new Date().toISOString().slice(0, 10)
+
       try {
         const todo = req.body
         let keys = Object.keys(todo)
@@ -49,7 +50,7 @@ const routes = (app) => {
     })
 
     .put((req, res) => {
-      const body = JSON.parse(req.body)
+      const body = req.body
       try {
         const { id } = req.params
         const taskToUpdate = app.locals.todos.find(todo => todo.id === String(id))
